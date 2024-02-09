@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.zimblesystems.cryptoValidator.model.proto.crypto";
+option java_outer_classname = "CryptoValidatorProto";
+
+package crypto;
+
+message ChipInfo {
+
+    optional string aip = 1;
+    optional string iad = 2;
+    optional string tvr = 3;
+    optional string transactionCurrency = 4;
+    optional string atc = 5;
+    optional string panSeqNumber = 6;
+    optional string transactionAmount = 7;
+    optional string otherAmount = 8;
+    optional string transactionType = 9;
+    optional string unpredictableNumber = 10;
+    optional string transactionDate = 11;
+    optional string requestCryptogram = 12;
+    optional string terminalCountryCode = 13;
+
+}
+
+message CryptoValidator {
+
+    string messageId = 1;
+    string messageTypeId = 2;
+    string containerId = 3;
+    string channelId = 4;
+    string aggregatorInstance = 5;
+    string instrument = 6;
+    string cardNumber = 7;
+    optional string pinBlock = 8;
+    optional int32 zoneKeyIndex = 9;
+    optional string pinBlockFormat = 10;
+    optional string cavvResult = 11;
+    optional string onlineCamResult = 12;
+    optional string cvv_ICvvResult = 13;
+    optional string cvv2Result = 14;
+    optional string cvv = 16;
+    optional string expiryDate = 17;
+    optional string serviceCode = 18;
+    optional string cvv2 = 19;
+    optional bytes cavv = 20;
+    optional string recurringTrans = 21;
+    optional string senderInstance = 22;
+    string entryMode = 23;
+    optional ChipInfo chipInfo = 24;
+    string zone = 26;
+    string networkId = 27;
+    optional int32 pinOffset = 28;
+    int32 cryptoOrg = 29;
+    int32 cryptoProduct = 30;
+    optional bool dynamicCVV = 31;
+    optional string chipVersion = 32;
+    optional string iadFormat = 33;
+    optional int32 chipSeq = 34;
+    optional int32 atc = 35;
+    optional int32  pinLength = 36;
+
+
+    optional RegistrationCrypto registration = 44;
+    optional StatusUpdateCrypto statusUpdate = 45;
+
+}
+
+message CryptoResponse {
+
+    string messageId = 1;
+    bool completed = 2;
+    optional RegistrationCrypto registration = 5;
+    optional StatusUpdateCrypto statusUpdate = 6;
+
+}
+
+message  RegistrationCrypto {
+
+    string serviceName = 1;
+    string serviceInstance = 2;
+}
+
+
+message StatusUpdateCrypto{
+
+    string serviceName = 1;
+    string serviceInstance = 2;
+    string  identifier = 3;
+    bool  readyStatus = 4;
+
+}
+
+
+
+
+service CryptoService {
+//    rpc register(RegistrationCrypto) returns(RegistrationCrypto) {}
+    rpc sendCryptoMessage (stream CryptoResponse) returns (stream CryptoValidator) {}
+}
